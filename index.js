@@ -11,7 +11,8 @@ const port = process.env.PORT || 5000;
 app.use(
   cors({
     origin: [//"http://localhost:5173"
-      "https://car-clinic-d3b32.web.app/"
+      "https://car-clinic-d3b32.web.app",
+      "https://car-clinic-d3b32.firebaseapp.com"
       
     ],
     credentials: true,
@@ -54,6 +55,12 @@ const verifyToken = async (req, res, next) => {
   });
 };
 
+const cookieOption = {
+  httpOnly: true,
+  sameSite : process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+  secure: process.env.NODE_ENV === 'production' ? 'true' : 'false', 
+}
+
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
@@ -69,14 +76,14 @@ async function run() {
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
       //console.log(token);
       res
-        .cookie("token", token, { httpOnly: true, secure: false })
+        .cookie("token", token, cookieOption)
         .send({ success: true });
     });
 
     app.post("/logout", async (req, res) => {
       const user = req.body;
         console.log("from logout", user);
-        res.clearCookie('token', { maxAge: 0 }).send({ success: true });
+        res.clearCookie('token', { ...cookieOption , maxAge: 0 }).send({ success: true });
      // res.clearCookie('token')
     });
 
@@ -147,7 +154,7 @@ async function run() {
     });
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+   // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
