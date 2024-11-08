@@ -54,9 +54,9 @@ const verifyToken = async (req, res, next) => {
 };
 
 const cookieOption = {
-  httpOnly: true,
-  sameSite : process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-  secure: process.env.NODE_ENV === 'production' ? 'true' : 'false', 
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
 }
 
 async function run() {
