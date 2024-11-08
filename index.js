@@ -62,7 +62,7 @@ const cookieOption = {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+  //  await client.connect();
     const serviceCollection = client.db("carDoctor").collection("services");
     const bookingCollection = client.db("carDoctor").collection("bookings");
 
@@ -87,9 +87,8 @@ async function run() {
 
     app.get("/services", async (req, res) => {
       const cursor = serviceCollection.find();
-      console.log(cursor);
+      console.log('services api');
       const result = await cursor.toArray();
-      console.log(object);
       res.send(cursor);
     });
 
