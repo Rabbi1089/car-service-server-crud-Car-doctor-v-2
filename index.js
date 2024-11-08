@@ -8,16 +8,14 @@ var cookieParser = require("cookie-parser");
 const port = process.env.PORT || 5000;
 
 // middleware
-app.use(
-  cors({
-    origin: [//"http://localhost:5173"
-      "https://car-clinic-d3b32.web.app",
-      "https://car-clinic-d3b32.firebaseapp.com"
-      
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+      // 'http://localhost:5173',
+      'https://car-clinic-d3b32.web.app',
+      'https://car-clinic-d3b32.firebaseapp.com'
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
